@@ -2,39 +2,32 @@
 
 const donationItems = {
     hygiene: [
-        { name: '🧼 Sabonete', goal: 100, current: 0 },
-        { name: '🪥 Pasta de dente', goal: 100, current: 0 },
-        { name: '👶 Fraldas infantis/geriátricas', goal: 100, current: 0 },
-        { name: '🧍‍♀️ Absorventes', goal: 100, current: 0 },
+        { name: '🧼 Sabonete', goal: 50, current: 5 },
+        { name: '🪥 Pasta de dente', goal: 50, current: 3 },
+        { name: '👶 Fraldas infantis/geriátricas', goal: 50, current: 0 },
+        { name: '🧍‍♀️ Absorventes', goal: 50, current: 0 },
         { name: '🧻 Papel higiênico', goal: 100, current: 0 }
     ],
     cleaning: [
-        { name: '🧽 Detergente', goal: 100, current: 0 },
-        { name: '🫧 Sabão em pó/barra', goal: 100, current: 0 },
-        { name: '🧴 Desinfetante', goal: 100, current: 0 },
-        { name: '💧 Água sanitária', goal: 100, current: 0 }
+        { name: '🧽 Detergente', goal: 50, current: 1 },
+        { name: '🫧 Sabão em pó/barra', goal: 50, current: 1 },
+        { name: '🧴 Desinfetante', goal: 50, current: 1 },
+        { name: '💧 Água sanitária', goal: 50, current: 0 },
+        {name: '🧽 Esponja', goal: 50, current: 2}
     ]
 };
 
-const donors = [];
-const galleryPhotos = [];
+const donors = ["Guilherme Blanco", "Gustavo Antonio"];
+const galleryPhotos = [{
+    src :  "fotos/lucas.jpg", 
+    caption : "Foto da Instituição",
+    date : "2025-05-04T16:43:29.356Z"
+}
+];
 const moneyDonations = {
-    total: 0,
+    total: 60,
     donations: []
 };
-
-// IDs das planilhas
-const SHEET_ID_1 = "1Q0Ypac7b-KIJQVnLzVlYSDAuI1PLcVcs1jyLM9-nU1Q";
-const SHEET_ID_2 = "1MfIe4ipPV1izDVBx7EG8lJIMWxbksmfVW3kFekkem7k"; 
-const ABA = 1; // pode ser o número da aba ou o nome dela (ex: 'Página1')
-
-// URLs da API opensheet.vercel.app
-const url1 = `https://opensheet.vercel.app/${SHEET_ID_1}/${ABA}`;
-const url2 = `https://opensheet.vercel.app/${SHEET_ID_2}/${ABA}`;
-
-// Função que busca os dados e trata o resultado
-
-
 
 // Navegação
 document.querySelectorAll('.nav-links a').forEach(link => {
@@ -57,7 +50,7 @@ function showPage(pageId) {
     document.querySelector(`[href="#${pageId}"]`).classList.add('active');
 }
 
-// Inicializa listas de itens no HTML
+
 function initializeLists() {
     const personalList = document.getElementById('personalHygieneList');
     const cleaningList = document.getElementById('cleaningList');
@@ -165,51 +158,56 @@ if (donationForm) {
 // Carrega dados das planilhas do servidor
 async function loadData() {
     try {
-        // ✅ 1. Busca direto das duas planilhas (sem backend)
-        const [itens, dinheiro] = await Promise.all([
-            fetch(url1).then(res => res.json()),
-            fetch(url2).then(res => res.json())
-        ]);
+        // ✅ 1. Busca os dados combinados do servidor
+        const response = await fetch('data.json');
+        const data = await response.json();
 
-        // ✅ 2. Processa doações de itens
-        itens.forEach(entry => {
-            const name = entry.Nome || entry.nome;
-            const itemName = entry.Item || entry.item;
-            const qty = entry.Quantidade || entry.quantidade;
+        if (data.donationItems) {
+            donationItems.hygiene = data.donationItems.hygiene || [];
+            donationItems.cleaning = data.donationItems.cleaning || [];
+        }
 
-            if (name && itemName && qty) {
-                donors.push(name);
+        // Para 'donors':
+        if (data.donors) {
+            donors = data.donors; // Assume que o array 'donors' no JSON é o que você quer
+        }
 
-                [...donationItems.hygiene, ...donationItems.cleaning].forEach(item => {
-                    if (item.name.toLowerCase().includes(itemName.toLowerCase())) {
-                        item.current += parseInt(qty);
-                    }
-                });
-            }
-        });
+        // Para 'moneyDonations':
+        if (data.moneyDonations) {
+            moneyDonations.total = data.moneyDonations.total || 0;
+            moneyDonations.donations = data.moneyDonations.donations || [];
+        }
+        if (data.donationItems) {
+            donationItems = data.donationItems; 
+        }
 
-        // ✅ 3. Processa doações em dinheiro
-        dinheiro.forEach(entry => {
-            const name = entry.Nome || entry.nome;
-            const value = entry.Valor || entry.valor;
-            const message = entry.Mensagem || entry.mensagem;
+        // 2. Carrega a lista de doadores
+        if (data.donors) {
+            donors = data.donors;
+        }
 
-            if (name && value) {
-                donors.push(name);
-                const numericValue = parseFloat(value.replace(',', '.'));
-                moneyDonations.total += numericValue;
-                moneyDonations.donations.push({ name, value: numericValue, message });
-            }
-        });
+        // 3. Carrega o estado das doações em dinheiro
+        if (data.moneyDonations) {
+            moneyDonations = data.moneyDonations;
+        }
+
+        // Opcional: Carregar fotos da galeria se você quiser usar
+        if (data.galleryPhotos) {
+
+        }
+        else{
+
+        }
+
 
         // ✅ 4. Atualiza a interface
-        updateProgress();
-        updateDonorsWall();
-        updateMoneyProgress();
-        updateGallery();
+        updateProgress(); // Isso deve usar a variável global 'donationItems'
+        updateDonorsWall(); // Isso deve usar a variável global 'donors'
+        updateMoneyProgress(); // Isso deve usar a variável global 'moneyDonations'
+        updateGallery(); // Isso deve usar a variável global 'galleryPhotos' se você a carregar
 
     } catch (error) {
-        console.error('❌ Erro ao carregar dados da planilha:', error);
+        console.error('❌ Erro ao carregar dados do data.json:', error);
     }
 }
 
@@ -248,7 +246,7 @@ function showThankYouModal() {
 
     setTimeout(() => {
         modal.style.display = 'none';
-    }, 3000);
+    }, 1);
 }
 
 function calculateTotalProgress() {
