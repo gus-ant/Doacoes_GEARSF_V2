@@ -2,7 +2,6 @@
 
 Bem-vindo ao repositório oficial da Campanha Higiene é Dignidade, promovida pelos Pioneiros do G.E.A.R. Salgado Filho. Nosso objetivo é arrecadar materiais de higiene e limpeza para apoiar a Fraternidade Assistencial Lucas Evangelista, que atende pessoas em situação de vulnerabilidade no Recanto das Emas - DF.
 
-![Texto alternativo](imagens/exemplo.png)
 
 ### 🖥 Sobre o Projeto
 
