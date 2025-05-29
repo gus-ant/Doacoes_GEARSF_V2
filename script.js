@@ -17,7 +17,7 @@ const donationItems = {
     ]
 };
 
-const donors = ["Guilherme Blanco", "Gustavo Antonio"];
+const donors = ["Guilherme Blanco", "Gustavo Antonio", "Edilson Júnior"];
 const galleryPhotos = [{
     src :  "fotos/lucas.jpg", 
     caption : "Foto da Instituição",
@@ -25,11 +25,11 @@ const galleryPhotos = [{
 }
 ];
 const moneyDonations = {
-    total: 60,
+    total: 85,
     donations: []
 };
 
-// Navegação
+
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
