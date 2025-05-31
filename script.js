@@ -9,7 +9,7 @@ const donationItems = {
         { name: '🧻 Papel higiênico', goal: 100, current: 0 }
     ],
     cleaning: [
-        { name: '🧽 Detergente', goal: 50, current: 1 },
+        { name: '🧽 Detergente', goal: 50, current: 2 },
         { name: '🫧 Sabão em pó/barra', goal: 50, current: 1 },
         { name: '🧴 Desinfetante', goal: 50, current: 1 },
         { name: '💧 Água sanitária', goal: 50, current: 0 },
@@ -17,7 +17,7 @@ const donationItems = {
     ]
 };
 
-const donors = ["Guilherme Blanco", "Gustavo Antonio", "Edilson Júnior"];
+const donors = ["Guilherme Blanco", "Gustavo Antonio", "Edilson Júnior", "Chefe Gabriel", "Daniel Formiga"];
 const galleryPhotos = [{
     src :  "fotos/lucas.jpg", 
     caption : "Foto da Instituição",
@@ -25,7 +25,7 @@ const galleryPhotos = [{
 }
 ];
 const moneyDonations = {
-    total: 85,
+    total: 185,
     donations: []
 };
 
