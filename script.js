@@ -2,22 +2,20 @@
 
 const donationItems = {
     hygiene: [
-        { name: '🧼 Sabonete', goal: 50, current: 5 },
+        { name: '🧼 Sabonete', goal: 50, current: 14 },
         { name: '🪥 Pasta de dente', goal: 50, current: 3 },
-        { name: '👶 Fraldas infantis/geriátricas', goal: 50, current: 0 },
-        { name: '🧍‍♀️ Absorventes', goal: 50, current: 0 },
-        { name: '🧻 Papel higiênico', goal: 100, current: 0 }
+        { name: '🧻 Papel higiênico', goal: 50, current: 6 },
     ],
     cleaning: [
-        { name: '🧽 Detergente', goal: 50, current: 2 },
-        { name: '🫧 Sabão em pó/barra', goal: 50, current: 1 },
+        { name: '🧽 Detergente', goal: 50, current: 5 },
+        { name: '🫧 Sabão em pó/barra', goal: 50, current: 10 },
         { name: '🧴 Desinfetante', goal: 50, current: 1 },
-        { name: '💧 Água sanitária', goal: 50, current: 0 },
+        { name: '💧 Água sanitária', goal: 50, current: 5 },
         {name: '🧽 Esponja', goal: 50, current: 2}
     ]
 };
 
-const donors = ["Guilherme Blanco", "Gustavo Antonio", "Edilson Júnior", "Chefe Gabriel", "Daniel Formiga"];
+const donors = ["Guilherme Blanco", "Gustavo Antonio", "Edilson Júnior", "Chefe Gabriel", "Daniel Formiga", "Maria de Lourdes", "Henrique Antony", "Mestre Everaldo"];
 const galleryPhotos = [{
     src :  "fotos/lucas.jpg", 
     caption : "Foto da Instituição",
@@ -25,7 +23,7 @@ const galleryPhotos = [{
 }
 ];
 const moneyDonations = {
-    total: 185,
+    total: 256.24,
     donations: []
 };
 
@@ -116,7 +114,7 @@ function updateMoneyProgress() {
 }
 
 
-// Login functionality
+
 
 document.getElementById('adminLogin')?.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -154,7 +152,7 @@ if (donationForm) {
 }
 
 
-
+// Essa função não está sendo mais usada
 // Carrega dados das planilhas do servidor
 async function loadData() {
     try {
@@ -280,10 +278,10 @@ function updateGallery() {
 
 // Inicialização
 document.addEventListener('DOMContentLoaded', async () => {
-    // Load saved data first
+    
     await loadData();
     
-    // Show home page by default
+    
     showPage('home');
     
     initializeLists();
@@ -296,19 +294,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         button.addEventListener('click', () => {
             const target = button.dataset.target;
             
-            // Hide all subpage content
+            
             document.querySelectorAll('.subpage-content').forEach(content => {
                 content.classList.remove('active');
             });
             
-            // Show selected content
+            
             if (target === 'donors') {
                 document.getElementById('donors-content').classList.add('active');
             } else if (target === 'photos') {
                 document.getElementById('photos-content').classList.add('active');
             }
             
-            // Highlight active button
+            
             document.querySelectorAll('.subpage-button').forEach(btn => {
                 btn.style.background = 'var(--glass-bg)';
             });
@@ -316,6 +314,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    // Show donors content by default
+    
     document.querySelector('[data-target="donors"]').click();
 });
